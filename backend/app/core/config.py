@@ -40,7 +40,7 @@ class Settings(BaseSettings):
 
     # Email notifications (optional until SMTP is configured)
     SMTP_HOST: str = ""
-    SMTP_PORT: int = 587
+    SMTP_PORT: int = 2525
     SMTP_USERNAME: str = ""
     SMTP_PASSWORD: str = ""
     SMTP_FROM_EMAIL: str = ""
