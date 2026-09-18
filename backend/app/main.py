@@ -96,7 +96,7 @@ fastapi_app.add_middleware(
     allow_origins=[
         "http://localhost:5173",
         "http://127.0.0.1:5173",
-        "https://vakilo-demo-75le-iota.vercel.app"
+        "https://vercel.com/yogesh944s-projects/vakilo-demo-75le/5HtSMJsVAVaEKw3SMa42DxfTjnH4"
     ],
     allow_credentials=True,
     allow_methods=["*"],
