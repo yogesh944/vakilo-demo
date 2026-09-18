@@ -168,7 +168,7 @@ export default function Homepage() {
               <Link
                 to="/signup"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="flex-1 bg-[#193B31] px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white"
+                className="flex-1 border border-[#C9A227] bg-[#FBF9F4] px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-[#171717] transition hover:bg-[#D6B43A]"
               >
                 Get Started
               </Link>
