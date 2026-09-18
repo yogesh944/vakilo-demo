@@ -94,11 +94,11 @@ fastapi_app = FastAPI(
 fastapi_app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "https://vakilo-demo-mu.vercel.app/"
+        origin.strip()
+        for origin in settings.CORS_ORIGINS.split(",")
+        if origin.strip()
     ],
-    allow_origin_regex=r"https://vakilo-demo-75le-[a-z0-9-]+\.vercel\.app",
+    allow_origin_regex=r"https://vakilo-demo-[a-z0-9-]+\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

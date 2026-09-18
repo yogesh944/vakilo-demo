@@ -33,6 +33,11 @@ class Settings(BaseSettings):
     SUPABASE_KEY: str
     SUPABASE_BUCKET: str
 
+    CORS_ORIGINS: str = (
+        "http://localhost:5173,http://127.0.0.1:5173,"
+        "https://vakilo-demo-mu.vercel.app"
+    )
+
     # Email notifications (optional until SMTP is configured)
     SMTP_HOST: str = ""
     SMTP_PORT: int = 587
