@@ -1,6 +1,6 @@
 import { io, type Socket } from "socket.io-client";
 
-const SOCKET_URL = "http://127.0.0.1:8000";
+const SOCKET_URL = "https://vakilo-demo-2.onrender.com/";
 
 let socket: Socket | null = null;
 
