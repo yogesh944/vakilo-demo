@@ -1,12 +1,13 @@
 import { io, type Socket } from "socket.io-client";
 
-const SOCKET_URL = "https://vakilo-demo-2.onrender.com/";
+const SOCKET_URL = (
+  import.meta.env.VITE_SOCKET_URL ||
+  "https://vakilo-demo-2.onrender.com"
+).replace(/\/$/, "");
 
 let socket: Socket | null = null;
 
-export function connectSocket(
-  token: string
-): Socket {
+export function connectSocket(token: string): Socket {
   if (socket) {
     return socket;
   }
@@ -16,6 +17,18 @@ export function connectSocket(
     auth: {
       token,
     },
+  });
+
+  socket.on("connect", () => {
+    console.log("Socket connected:", socket?.id);
+  });
+
+  socket.on("connect_error", (error) => {
+    console.error("Socket connection error:", error.message);
+  });
+
+  socket.on("disconnect", (reason) => {
+    console.log("Socket disconnected:", reason);
   });
 
   return socket;
