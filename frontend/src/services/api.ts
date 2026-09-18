@@ -1,5 +1,6 @@
 const API_URL = (
-  import.meta.env.VITE_API_URL || "https://vakilo-demo-2.onrender.com"
+  import.meta.env.VITE_API_URL ||
+  "https://vakilo-demo-2.onrender.com"
 ).replace(/\/$/, "");
 
 interface ApiRequestOptions {
