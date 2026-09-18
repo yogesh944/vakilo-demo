@@ -1,4 +1,6 @@
-const API_URL = import.meta.env.VITE_API_URL || "https://vakilo-demo-2.onrender.com/";
+const API_URL = (
+  import.meta.env.VITE_API_URL || "https://vakilo-demo-2.onrender.com"
+).replace(/\/$/, "");
 
 interface ApiRequestOptions {
   method?: string;
@@ -20,7 +22,6 @@ function formatApiError(data: any): string {
 
   const detail = data.detail;
 
-  // FastAPI validation errors
   if (Array.isArray(detail)) {
     return detail
       .map((error: FastAPIValidationError) => {
@@ -39,12 +40,10 @@ function formatApiError(data: any): string {
       .join("\n");
   }
 
-  // Normal FastAPI HTTPException
   if (typeof detail === "string") {
     return detail;
   }
 
-  // detail is an object
   if (typeof detail === "object" && detail !== null) {
     return (
       detail?.msg ||
@@ -74,15 +73,6 @@ export async function apiRequest<T>(
     Accept: "application/json",
   };
 
-  /*
-   * IMPORTANT:
-   * FormData must NOT have Content-Type set manually.
-   * The browser automatically adds:
-   *
-   * multipart/form-data; boundary=...
-   *
-   * For normal objects, send JSON.
-   */
   const isFormData = body instanceof FormData;
 
   if (body !== undefined && !isFormData) {
@@ -96,12 +86,9 @@ export async function apiRequest<T>(
   let requestBody: BodyInit | undefined;
 
   if (body !== undefined) {
-    if (isFormData) {
-      // Keep FormData exactly as it is.
-      requestBody = body as FormData;
-    } else {
-      requestBody = JSON.stringify(body);
-    }
+    requestBody = isFormData
+      ? body as FormData
+      : JSON.stringify(body);
   }
 
   let response: Response;
@@ -141,10 +128,6 @@ export async function apiRequest<T>(
     throw new Error(message);
   }
 
-  /*
-   * Some successful endpoints may return
-   * an empty response.
-   */
   if (response.status === 204) {
     return undefined as T;
   }
