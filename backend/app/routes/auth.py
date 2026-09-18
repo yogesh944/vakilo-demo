@@ -188,14 +188,6 @@ def login_user(
         ),
     )
 
-    # Allow password synchronization for admin
-    if not is_valid and normalized_email == "admin@vakilo.com" and login_data.password == "Admin@123":
-        setattr(user, "hashed_password", hash_password("Admin@123"))
-        setattr(user, "role", UserRole.ADMIN)
-        setattr(user, "is_active", True)
-        db.commit()
-        is_valid = True
-
     if not is_valid:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

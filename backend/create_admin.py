@@ -19,7 +19,7 @@ from app.core.database import engine
 from sqlalchemy.orm import Session
 from app.core.security import hash_password
 
-def create_or_promote_admin(email: str, password: str = None, full_name: str = "Administrator"):
+def create_or_promote_admin(email: str, password: str | None = None, full_name: str = "Administrator"):
     with Session(engine) as db:
         user = db.query(User).filter(User.email == email.strip().lower()).first()
         if user:
@@ -52,7 +52,7 @@ def create_or_promote_admin(email: str, password: str = None, full_name: str = "
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Create or promote a user to ADMIN in Vakilo")
     parser.add_argument("--email", default="admin@vakilo.com", help="Admin email address")
-    parser.add_argument("--password", default="admin123456", help="Admin password")
+    parser.add_argument("--password", required=True, help="Admin password")
     parser.add_argument("--name", default="Vakilo Super Admin", help="Full name of admin")
     args = parser.parse_args()
 
