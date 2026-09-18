@@ -14,6 +14,8 @@ import {
   MessageCircle,
   BriefcaseBusiness,
   Camera,
+  Menu,
+  X,
 } from "lucide-react";
 import CNRSearchWidget from "../components/CNRSearchWidget";
 import HowItWorks from "../components/HowItWorks";
@@ -30,6 +32,7 @@ const SERVICE_ICONS = [ShieldCheck, Users, FolderKanban, MessageSquareLock];
 export default function Homepage() {
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleCNRSearch = (cnrNumber: string) => {
     navigate(`/case-tracker?cnr=${encodeURIComponent(cnrNumber)}`);
@@ -42,8 +45,19 @@ export default function Homepage() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsMobileMenuOpen(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [isMobileMenuOpen]);
+
   return (
-    <main className="min-h-screen bg-[#FBF9F4] text-[#171717]">
+    <main id="home" className="min-h-screen bg-[#FBF9F4] text-[#171717]">
       {/* =================================================
           HEADER — sticky, gains blur + shadow on scroll
       ================================================= */}
@@ -91,18 +105,75 @@ export default function Homepage() {
           <div className="flex items-center gap-3">
             <Link
               to="/login"
-              className="hidden text-sm font-semibold text-[#171717] transition hover:text-[#8A6D1D] sm:block"
+              className="hidden text-sm font-semibold text-[#171717] transition hover:text-[#8A6D1D] lg:block"
             >
               Login
             </Link>
 
             <Link
               to="/signup"
-              className="border border-[#C9A227] bg-[#FBF9F4] px-5 py-3 text-xs font-semibold uppercase tracking-wider text-[#171717] transition duration-300 hover:bg-[#D6B43A] hover:shadow-[0_6px_20px_-6px_rgba(201,162,39,0.6)]"
+              className="hidden border border-[#C9A227] bg-[#FBF9F4] px-5 py-3 text-xs font-semibold uppercase tracking-wider text-[#171717] transition duration-300 hover:bg-[#D6B43A] hover:shadow-[0_6px_20px_-6px_rgba(201,162,39,0.6)] sm:block"
             >
               Get Started
             </Link>
+
+            <button
+              type="button"
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-navigation"
+              aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              onClick={() => setIsMobileMenuOpen((open) => !open)}
+              className="flex h-11 w-11 items-center justify-center border border-[#D9D2C5] text-[#193B31] transition hover:border-[#C9A227] hover:text-[#8A6D1D] md:hidden"
+            >
+              {isMobileMenuOpen ? <X size={21} /> : <Menu size={21} />}
+            </button>
           </div>
+        </div>
+
+        <div
+          id="mobile-navigation"
+          className={`${isMobileMenuOpen ? "block" : "hidden"} border-t border-[#DED7CA] bg-[#FBF9F4] px-6 py-5 md:hidden`}
+        >
+          <nav className="grid gap-1" aria-label="Mobile navigation">
+            {[
+              { href: "#home", label: "Home" },
+              { href: "#services", label: "Services" },
+              { href: "#how-it-works", label: "How It Works" },
+              { href: "#legal-news", label: "Legal News" },
+            ].map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="border-b border-[#E7E0D4] py-3 text-sm font-medium text-[#193B31]"
+              >
+                {item.label}
+              </a>
+            ))}
+            <Link
+              to="/client/ipc-laws"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="border-b border-[#E7E0D4] py-3 text-sm font-medium text-[#193B31]"
+            >
+              IPC Laws
+            </Link>
+            <div className="flex gap-3 pt-4 sm:hidden">
+              <Link
+                to="/login"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex-1 border border-[#D9D2C5] px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-[#193B31]"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="flex-1 bg-[#193B31] px-4 py-3 text-center text-xs font-semibold uppercase tracking-wider text-white"
+              >
+                Get Started
+              </Link>
+            </div>
+          </nav>
         </div>
       </header>
 
@@ -112,9 +183,9 @@ export default function Homepage() {
 
       <HeroSlider />
 
-      {/* =================================================
-          CLIENT LOGOS — infinite marquee, social proof
-      ================================================= */}
+        {/* =================================================
+          LAWYERS — infinite marquee, trusted expertise
+        ================================================= */}
 
       <ClientLogosMarquee />
 
