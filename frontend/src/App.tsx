@@ -3,7 +3,6 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import CaseTrackerDashboard from "./pages/CaseTrackerDashboard";
 import CaselyApp from "./pages/CaselyApp";
 import ClientDashboard from "./pages/ClientDashboard";
-import Homepage from "./pages/Homepage";
 
 import LawyerDashboard from "./pages/LawyerDashboard";
 import LawyerProfile from "./pages/LawyerProfile";
@@ -110,7 +109,7 @@ function App() {
 
       <Route
         path="/"
-        element={<Homepage />}
+        element={<Navigate to="/login" replace />}
       />
 
       <Route
