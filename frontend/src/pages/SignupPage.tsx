@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../components/Logo";
 import { useAuth, type UserRole } from "../context/AuthContext";
 
@@ -295,6 +295,14 @@ export default function SignupPage() {
         <section className="flex min-h-screen items-center justify-center px-6 py-12 md:px-10">
 
           <div className="w-full max-w-md">
+            <div className="mb-6 flex justify-end">
+              <Link
+                to="/home"
+                className="text-xs font-semibold uppercase tracking-[0.15em] text-[#8A6D1D] transition hover:text-[#C9A227]"
+              >
+                Home
+              </Link>
+            </div>
 
 
             {/* MOBILE LOGO */}
